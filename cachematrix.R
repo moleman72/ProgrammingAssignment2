@@ -3,6 +3,13 @@
 ## compute the matrix inverse which is usually a costly
 ## computation.
 
+## USAGE:
+## source("cachematrix.R")
+## m <- matrix(1:4, 2,2)
+## mc <- makeCacheMatrix(m)
+## cacheSolve(mc)
+## cacheSolve(mc) - should trigger the message 
+
 ## Function makeCacheMatrix creates a special "matrix" object
 ## that can cache its inverse. The "matrix" object is a list
 ## of functions to
@@ -31,17 +38,15 @@ makeCacheMatrix <- function(x = matrix()) {
 ## been calculated (and the matrix has not changed), then
 ## cacheSolve should retrieve the inverse from the cache.
 
-cacheSolve <- function(x = matrix(), ...) {
-        ## Return a matrix that is the inverse of 'x'
-    if (identical(x, x['get'])) {
-        minverse <- x$getinverse()
-        if (!is.null (minverse)) {
-            message ("getting cached data")
-            return (minverse)
-        }
-    }
-    data <- x['get']
+cacheSolve <- function(x, ...) {
+    ## Return a matrix that is the inverse of 'x'
+    minverse <- x$getinverse()
+    if (!is.null (minverse)) {
+        message ("getting cached data")
+        return (minverse)
+	}
+    data <- x$get()
     minverse <- solve(data, ...)
-    x['setinverse(minverse)']
+    x$setinverse(minverse)
     minverse
 }
