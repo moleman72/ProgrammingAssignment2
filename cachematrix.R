@@ -31,16 +31,16 @@ makeCacheMatrix <- function(x = matrix()) {
 ## been calculated (and the matrix has not changed), then
 ## cacheSolve should retrieve the inverse from the cache.
 
-cacheSolve <- function(x = matrix(), ...) {
+cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-    if (identical(x, x['get'])) {
-        minverse <- x$getinverse()
+    if (identical(x, x['get()'])) {
+        minverse <- x['getinverse()']
         if (!is.null (minverse)) {
             message ("getting cached data")
             return (minverse)
         }
     }
-    data <- x['get']
+    data <- x['get()']
     minverse <- solve(data, ...)
     x['setinverse(minverse)']
     minverse
